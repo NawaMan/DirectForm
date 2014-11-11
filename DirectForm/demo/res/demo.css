@@ -1,0 +1,60 @@
+.log {
+    white-space: pre;
+    overflow: visible;
+    width: 800px;
+}
+.log div {
+    margin-top: 0.2em;
+    padding: 0.2em;
+    font-size: 1.2em;
+    background-color: #EEEEEE;
+}
+.log div div {
+    border-bottom: none;
+    font-family: monospace;
+}
+.log div div:FIRST-CHILD {
+    font-size: x-small;
+    color: gray;
+    padding-bottom: 0.2em;
+}
+.log div div:LAST-CHILD {
+    padding-bottom: 0.1em;
+}
+
+body {
+	width: 1200px;
+}
+
+body > .head {
+    max-width: 800px;
+    text-align: left;
+    background-color: #FFF7BC;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+body > .head > div:FIRST-CHILD {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+body > .content {
+    width: 48.7%;
+    float: left;
+    border: 2px solid black;
+    padding: 4px;
+}
+
+body > .log {
+    width: 48.7%;
+    float: right;
+    border: 2px solid black;
+    padding: 4px;
+}
+

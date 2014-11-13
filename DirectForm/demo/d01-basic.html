@@ -5,26 +5,119 @@
 <meta charset="UTF-8">
 <title>DirectForm Demo</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script src="res/demo.js"></script>
 <link   href="res/demo.css" type="text/css" rel="stylesheet" />
-<script src="../script/directForm.js"></script>
-<script>
+
+<script src="res/shCore.js"></script>
+<script src="res/shBrushJScript.js"></script>
+<script src="res/shBrushXml.js"></script>
+<link   href="res/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="res/shThemeDefault.css" type="text/css" rel="stylesheet" />
+
+<script type="text/javascript" >
 $(function () {
-	demo.initModule();
-}
+    // Prepare demo - not related to the Direct Form.
+    demo.ready = false;
+    demo.initModule();
+});
 </script>
+
+<script src="../script/directForm.js"></script>
+<script id="demo-js" type="text/javascript" >
+$(function () {
+    // Initiate the direct form module. (Need to don only once).
+    directForm.initModule();
+    
+    // Create a direct form for the container "#form1"".
+    var form1 = directForm.makeForm($("#form1"));
+    // Make its submit button to perform a submit.
+    $("#form1 > .submit-button").click(function() {
+        form1.submit();
+    });
+    // Setup a listener for the form.
+    $("#form1").bind('submit', function(event) {
+        // Display the value.
+        demo.log(JSON.stringify(event.values));
+    });
+});
+</script>
+
+<script id="Test-01" type="text/javascript" >
+$(function () {
+    demo.addUnitTest('Test-01', 'Check if input value is as expected', function() {
+        var oldValue1 = $("#form1 [data-name=input1]").val();
+        try {
+            $("#form1 [data-name=input1]").val("value1");
+            $("#form1 .submit-button").click();
+            return demo.assertLog('{"input1":"value1"}');
+        } finally {
+            $("#form1 [data-name=input1]").val(oldValue1);
+        }
+    });
+});
+</script>
+
+<script type="text/javascript" >
+$(function () {
+    $("#disp-code-test-01 pre").text($("#Test-01").html());
+    
+    if (demo.param('unittests') != 'false') {
+        demo.runUnitTests();
+    }
+    demo.ready = true;
+});
+</script>
+
 </head>
 
 <body>
   <div class="head" >
-    <div>Direct Form</div>
+    <div>Basic</div>
     <div>
+      <h3>Description</h3>
+      <p>
+          Direct form can be created from any container.
+          When submit, the value of any input components (except for button) in that container are automatically gathered and added to the
+            event object.
+      </p>
       
+      <div id="disp-code">
+        <h3>Demo Code</h3>
+        <span class="show-link">&lt;show&gt;</span><span class="hide-link">&lt;hide&gt;</span>
+        
+        <div class="code">
+          <h4>HTML</h4>
+          <div id="disp-html-code">
+            <pre class="brush: xml"></pre>
+          </div>
+          
+          <h4>JavaScript</h4>
+          <div id="disp-js-code">
+            <pre class="brush: js"></pre>
+          </div>
+          
+          <h4>Test-01</h4>
+          <div id="disp-code-test-01">
+            <pre class="brush: js"></pre>
+          </div>
+        </div>
+      </div>
       
+      <div id="unit-tests">
+        <h3>Unit tests</h3>
+        <table>
+        </table>
+      </div>
     </div>
   </div>
-  <div class="content" >Content</div>
-  <div class="log" >Log</div>
+  <div id="demo-html" class="content" >
+    <div id="form1" >
+      <input type="text" data-name="input1" placeholder="input1">
+      <input type="button" class="submit-button" value="Submit" />
+    </div>
+  </div>
+  <div class="log" ></div>
 </body>
 
 </html>

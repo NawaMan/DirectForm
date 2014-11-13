@@ -27,7 +27,7 @@ body {
 }
 
 body > .head {
-    max-width: 800px;
+    max-width: 1200px;
     text-align: left;
     background-color: #FFF7BC;
     margin-left: auto;
@@ -44,6 +44,9 @@ body > .head > div:FIRST-CHILD {
     font-weight: bold;
 }
 
+body > .content:before {
+    content: "Form";
+}
 body > .content {
     width: 48.7%;
     float: left;
@@ -51,10 +54,89 @@ body > .content {
     padding: 4px;
 }
 
+body > .log:before {
+	content: "Log"
+}
 body > .log {
     width: 48.7%;
     float: right;
     border: 2px solid black;
     padding: 4px;
+    padding-top: 1.5em"
+}
+
+body > .content:before,
+body > .log:before  {
+    font-size: x-large;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: black;
+}
+
+.head h3 {
+    font-size: 1em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.head h4 {
+    font-size: 0.9em;
+}
+
+.head #disp-code h4,
+.head #disp-code div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.head #disp-code .syntaxhighlighter {
+    border: 2px solid black;
+}
+
+.hide-link,
+.show-link {
+    font-size: small;
+    color: blue;
+    cursor: pointer
+}
+
+.error-log,
+.error-log * {
+    background-color: #FFAAAA !important;
+}
+
+#unit-tests tr:nth-child(even) {
+    background: #CCC
+}
+
+#unit-tests tr:nth-child(odd) {
+    background: #FFF
+}
+
+#unit-tests tr td:nth-child(1) {
+    padding-right: 3em;
+}
+
+#unit-tests tr td:nth-child(2) {
+    padding-right: 3em;
+}
+
+#unit-tests thead {
+    font-weight: bold;
+}
+
+.test-pass,
+.test-fail {
+    padding-left: 1em;
+    padding-right: 1em;
+    font-weight: bold;
+}
+
+.test-pass {
+    background-color: #AAFFAA !important;
+}
+.test-fail {
+    background-color: #FFAAAA !important;
 }
 

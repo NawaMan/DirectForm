@@ -5,13 +5,20 @@
 <meta charset="UTF-8">
 <title>DirectForm Demo</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script src="res/demo.js"></script>
 <link   href="res/demo.css" type="text/css" rel="stylesheet" />
-<script src="../script/directForm.js"></script>
+
+<script src="res/shCore.js"></script>
+<script src="res/shBrushJScript.js"></script>
+<script src="res/shBrushXml.js"></script>
+<link   href="res/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="res/shThemeDefault.css" type="text/css" rel="stylesheet" />
+
 <script>
 $(function () {
-	demo.initModule();
-}
+    demo.initModule();
+});
 </script>
 </head>
 
@@ -20,10 +27,25 @@ $(function () {
     <div>Direct Form</div>
     <br/>
     <div>
-      <a href="d01-basic.html" target="testFrame">Foo</a>
+      <a href="d01-basic.html?unittests=false" target="testFrame" >Basic</a>
     </div>
   </div>
-  <iframe name="testFrame" width="1210px"></iframe>
+  <iframe name="testFrame" width="1210px" height="700px"></iframe>
+  
+  <script>
+  $("iframe").load(function() {
+      runFrameTest();
+  });
+  
+  
+  function runFrameTest() {
+    var frame = window.frames.testFrame;
+    var isPass = frame.demo.runUnitTests();
+    if (!isPass) {
+        alert("Fail test: ");
+    }
+  }
+  </script>
 </body>
 
 </html>

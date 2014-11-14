@@ -25,6 +25,10 @@ $(function () {
 
 <script src="../script/directForm.js"></script>
 <script id="demo-js" type="text/javascript" >
+// Gobal variable for testing
+lastSubmitEvent = null;
+theForm         = null;
+
 $(function () {
     // Initiate the direct form module. (Need to don only once).
     directForm.initModule();
@@ -39,20 +43,119 @@ $(function () {
     $("#form1").bind('submit', function(event) {
         // Display the value.
         demo.log(JSON.stringify(event.values));
+        // Store this for testing
+        lastSubmitEvent = event;
     });
+    
+    theForm = form1;
 });
 </script>
 
 <script id="Test-01" type="text/javascript" >
 $(function () {
-    demo.addUnitTest('Test-01', 'Check if input value is as expected', function() {
-        var oldValue1 = $("#form1 [data-name=input1]").val();
+    demo.addUnitTest('Test-01', 'Check if the input values are as expected', function() {
+        var $input1 = $("#form1 [data-name=input1]");
+        var $input2 = $("#form1 [data-name=input2]");
+        
+        var oldValue1  = $input1.val();
+        var oldValue2  = $input2.val();
         try {
-            $("#form1 [data-name=input1]").val("value1");
-            $("#form1 .submit-button").click();
-            return demo.assertLog('{"input1":"value1"}');
+            // Given 
+            $input1.val("value1");
+            $input2.val("value2");
+            
+            // Do it
+            theForm.submit();
+            
+            // Ensure result
+            demo.assert(lastSubmitEvent.values["input1"], "value1");
+            demo.assert(lastSubmitEvent.values.input2,    "value2");
         } finally {
-            $("#form1 [data-name=input1]").val(oldValue1);
+            $input1.val(oldValue1);
+            $input2.val(oldValue2);
+        }
+    });
+});
+</script>
+
+<script id="Test-02" type="text/javascript" >
+$(function () {
+    demo.addUnitTest('Test-02', 'Check if input values are as expected - by simulating and observing the UI', function() {
+        var $input1 = $("#form1 [data-name=input1]");
+        var $input2 = $("#form1 [data-name=input2]");
+        var $submitBtn = $("#form1 .submit-button")
+        
+        var oldValue1  = $input1.val();
+        var oldValue2  = $input2.val();
+        try {
+            // Given 
+            $input1.val("value1");
+            $input2.val("value2");
+            
+            // Do it
+            theForm.submit();
+            
+            // Ensure result
+            return demo.assertLog('{"input1":"value1","input2":"value2"}');
+        } finally {
+            $input1.val(oldValue1);
+            $input2.val(oldValue2);
+        }
+    });
+});
+</script>
+
+<script id="Test-03" type="text/javascript" >
+$(function () {
+    demo.addUnitTest('Test-03', 'Check if the fields are accessible', function() {
+        var $input1 = $("#form1 [data-name=input1]");
+        var $input2 = $("#form1 [data-name=input2]");
+        
+        var oldValue1  = $input1.val();
+        var oldValue2  = $input2.val();
+        try {
+            // Given
+            $input1.val("value1");
+            $input2.val("value2");
+            $input1.attr("data-uId", Math.floor(Math.random()*1000001));
+            $input2.attr("data-uId", Math.floor(Math.random()*1000001));
+            
+            // Do it
+            theForm.submit();
+            
+            // Ensure result
+            demo.assert(lastSubmitEvent.fields["input1"].element.attr("data-uId"), $input1.attr("data-uId"));
+            demo.assert(lastSubmitEvent.fields.input2.element.attr("data-uId"),    $input2.attr("data-uId"));
+        } finally {
+            $input1.val(oldValue1);
+            $input2.val(oldValue2);
+        }
+    });
+});
+</script>
+
+<script id="Test-04" type="text/javascript" >
+$(function () {
+    demo.addUnitTest('Test-04', 'Check if the fields values are accessible', function() {
+        var $input1 = $("#form1 [data-name=input1]");
+        var $input2 = $("#form1 [data-name=input2]");
+        
+        var oldValue1  = $input1.val();
+        var oldValue2  = $input2.val();
+        try {
+            // Given
+            $input1.val("value1");
+            $input2.val("value2");
+            
+            // Do it
+            theForm.submit();
+            
+            // Ensure result
+            demo.assert(lastSubmitEvent.fields["input1"].value, "value1");
+            demo.assert(lastSubmitEvent.fields.input2.value,    "value2");
+        } finally {
+            $input1.val(oldValue1);
+            $input2.val(oldValue2);
         }
     });
 });
@@ -76,11 +179,24 @@ $(function () {
     <div>Basic</div>
     <div>
       <h3>Description</h3>
-      <p>
-          Direct form can be created from any container.
-          When submit, the value of any input components (except for button) in that container are automatically gathered and added to the
-            event object.
-      </p>
+      <ul>
+          <li>
+              Direct form can be created from any container.
+          </li>
+          <li>
+              When submit, the value of any input components (except for button) in that container are automatically
+                gathered and added to the event object in the property named "values"
+                (e.g., `<code>event.values['input1']</code>` or `<code>event.values.input1</code>`).
+          </li>
+          <li>
+          The fields elements are also accessible via the property of the event object named "fields" 
+            (e.g., `<code>event.fields['input1'].element</code>` or `<code>event.fields.input1.element</code>`).
+          </li>
+          <li>
+          The fields values are also accessible via the `<code>fields</code>` property.
+            (e.g., `<code>event.fields['input1'].value</code>` or `<code>event.fields.input1.value</code>`).
+          </li>
+      </ul>
       
       <div id="disp-code">
         <h3>Demo Code</h3>
@@ -113,7 +229,8 @@ $(function () {
   </div>
   <div id="demo-html" class="content" >
     <div id="form1" >
-      <input type="text" data-name="input1" placeholder="input1">
+      <input type="text" data-name="input1" placeholder="input1"><br/>
+      <input type="text" data-name="input2" placeholder="input2"><br/>
       <input type="button" class="submit-button" value="Submit" />
     </div>
   </div>

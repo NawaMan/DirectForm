@@ -3,20 +3,44 @@
  */
 var demo = (function($) {
     
-    var initModule, param, log, error, assertLog, addUnitTest, runUnitTests;
+    var initModule, param, log, error, assert, assertLog, addUnitTest, runUnitTests;
     var $log, $allPass, $allFail;
     var unitTests = [];
     
-    var runTest = function(test, $testBtn, $testPass, $testFail) {
-        var isPass = test.apply($testBtn);
-        if (isPass) {
+    function AssertException(message) {
+        this.name = "AssertException";
+        this.message = (message || "");
+    };
+    
+    AssertException.prototype = new Error();
+    AssertException.prototype.constructor = AssertException;
+    
+    var runTest = function(test, testFunc, $testBtn, $testPass, $testFail, $testErr) {
+        $testPass.hide();
+        $testFail.hide();
+        $testErr.hide();
+        
+        try {
+            testFunc.apply(test);
             $testPass.show();
-            $testFail.hide();
-        } else {
-            $testPass.hide();
-            $testFail.show();
+            return true;
+        } catch(exception) {
+            if (exception instanceof AssertException) {
+                error(
+                    "A test assertion fail: " + test.name,
+                    "  @" + exception.fileName + "#" + exception.lineNumber);
+                $testFail.show();
+            } else {
+                error(
+                    "A test results in exception: " + test.name,
+                    "  @" + exception.fileName + "#" + exception.lineNumber,
+                    "Message: ",
+                    exception.message);
+                    
+                $testErr.show();
+            }
+            return false;
         }
-        return isPass;
     }
     
     initModule = function($log_element) {
@@ -50,6 +74,7 @@ var demo = (function($) {
         var $testDesc = $("<span></span>").addClass('test-desc');
         var $testPass = $("<span>PASS</span>").addClass('test-pass');
         var $testFail = $("<span>FAIL</span>").addClass('test-fail');
+        var $testErr  = $("<span>ERROR</span>").addClass('test-error');
         $testName.text("Name");
         $testDesc.text("Description");
         $testBtn.val("Test All");
@@ -58,11 +83,12 @@ var demo = (function($) {
         });
         $testPass.hide();
         $testFail.hide();
+        $testErr.hide();
         
         $testRow.append($("<td />").append($testName));
         $testRow.append($("<td />").append($testDesc));
         $testRow.append($("<td />").append($testBtn));
-        $testRow.append($("<td />").append($testPass).append($testFail));
+        $testRow.append($("<td />").append($testPass).append($testFail).append($testErr));
         
         $("#unit-tests table").append($testRow);
         
@@ -105,41 +131,49 @@ var demo = (function($) {
     
     assertLog = function(expected_text) {
         var actual = $(".log div:first-child div:nth-child(2)").text();
-        if (actual != expected_text) {
-            demo.error("ACTUAL: ", actual, "EXPECTED", expected_text);
-            return false;
-        }
-        return true;
+        return assert(actual, expected_text);
     };
     
-    addUnitTest = function(name, desc, test) {
+    assert = function(actual_value, expected_value) {
+        if (actual_value != expected_value) {
+            demo.error("ACTUAL: ", actual_value, "EXPECTED", expected_value);
+            throw new AssertException("Fail");
+        }
+    };
+    
+    addUnitTest = function(name, desc, testFunc) {
         var $testRow  = $("<tr />").addClass('test-row');
         var $testBtn  = $("<input type='button'/>").addClass('test-button');
         var $testName = $("<span></span>").addClass('test-name');
         var $testDesc = $("<span></span>").addClass('test-desc');
         var $testPass = $("<span>PASS</span>").addClass('test-pass');
         var $testFail = $("<span>FAIL</span>").addClass('test-fail');
+        var $testErr  = $("<span>ERROR</span>").addClass('test-error');
         $testName.text(name);
         $testDesc.text(desc);
         $testBtn.val("Test");
-        $testBtn.click(function() {
-            return runTest(test, $testBtn, $testPass, $testFail);
-        });
         $testPass.hide();
         $testFail.hide();
+        $testErr.hide();
         
         $testRow.append($("<td />").append($testName));
         $testRow.append($("<td />").append($testDesc));
         $testRow.append($("<td />").append($testBtn));
-        $testRow.append($("<td />").append($testPass).append($testFail));
+        $testRow.append($("<td />").append($testPass).append($testFail).append($testErr));
         
-        unitTests.push({
+        var testVar;
+        var test;
+        
+        test = function() {
+            return runTest(testVar, testFunc, $testBtn, $testPass, $testFail, $testErr);
+        };
+        testVar = {
             'name': name,
             'desc': desc,
-            'test': function() {
-                return runTest(test, $testBtn, $testPass, $testFail);
-            },
-        });
+            'test': test,
+        };
+        $testBtn.click(test);
+        unitTests.push(testVar);
         
         $("#unit-tests table").append($testRow);
     }
@@ -173,6 +207,7 @@ var demo = (function($) {
         log          : log,
         error        : error,
         assertLog    : assertLog,
+        assert       : assert, 
         addUnitTest  : addUnitTest,
         runUnitTests : runUnitTests,
     };

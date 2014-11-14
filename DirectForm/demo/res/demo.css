@@ -106,8 +106,12 @@ body > .log:before  {
     background-color: #FFAAAA !important;
 }
 
+#unit-tests thead {
+    background: #CCF
+}
+
 #unit-tests tr:nth-child(even) {
-    background: #CCC
+    background: #DDD
 }
 
 #unit-tests tr:nth-child(odd) {
@@ -120,6 +124,17 @@ body > .log:before  {
 
 #unit-tests tr td:nth-child(2) {
     padding-right: 3em;
+    max-width: 40em;
+}
+
+#unit-tests thead td:nth-child(3),
+#unit-tests tr    td:nth-child(3) {
+    text-align: center;
+}
+
+#unit-tests thead td:nth-child(4),
+#unit-tests tr    td:nth-child(4) {
+    text-align: center;
 }
 
 #unit-tests thead {
@@ -127,7 +142,8 @@ body > .log:before  {
 }
 
 .test-pass,
-.test-fail {
+.test-fail,
+.test-error {
     padding-left: 1em;
     padding-right: 1em;
     font-weight: bold;
@@ -138,5 +154,8 @@ body > .log:before  {
 }
 .test-fail {
     background-color: #FFAAAA !important;
+}
+.test-error {
+    background-color: #FF0000 !important;
 }
 

@@ -1,0 +1,6 @@
+- Show the all the test code.
+- Add file header/license.
+- Get input by name from the form widgetVar
+- For demo: save all input value and return for unit testing.
+- Log message has scroll bar when necessary
+- Extract test related functionality out of the demo

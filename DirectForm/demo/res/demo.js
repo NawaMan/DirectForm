@@ -46,25 +46,29 @@ var demo = (function($) {
     initModule = function($log_element) {
         $log = $log_element || $(".log");
         
+        $(".has-detail").each(function() {
+            var $this = $(this);
+            $this.find(".show-link").click(function() {
+                $this.find(".detail").show();
+                $this.find(".show-link").hide();
+                $this.find(".hide-link").show();
+            });
+            $this.find(".hide-link").click(function() {
+                $this.find(".detail").hide();
+                $this.find(".show-link").show();
+                $this.find(".hide-link").hide();
+            });
+            
+            $this.find(".detail").hide();
+            $this.find(".hide-link").hide();
+            $this.find(".show-link").show();
+        });
+        
         // Prepare code.
-        $("#disp-code .show-link").click(function() {
-            $("#disp-code .code").show();
-            $("#disp-code .show-link").hide();
-            $("#disp-code .hide-link").show();
-        });
-        $("#disp-code .hide-link").click(function() {
-            $("#disp-code .code").hide();
-            $("#disp-code .show-link").show();
-            $("#disp-code .hide-link").hide();
-        });
         $("#disp-html-code pre").text($("#demo-html").html());
         $("#disp-js-code   pre").text($("#demo-js"  ).html());
         // TODO - Automatically generate unit test code.
         SyntaxHighlighter.all();
-        
-        $(".code").hide();
-        $(".hide-link").hide();
-        $(".show-link").show();
         
         // TODO - Refactor this.
         // Prepare unit test table

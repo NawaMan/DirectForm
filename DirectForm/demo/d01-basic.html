@@ -98,7 +98,7 @@ $(function () {
             $input2.val("value2");
             
             // Do it
-            theForm.submit();
+            $submitBtn.click();
             
             // Ensure result
             return demo.assertLog('{"input1":"value1","input2":"value2"}');

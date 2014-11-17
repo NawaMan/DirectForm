@@ -9,6 +9,8 @@
 <script src="res/demo.js"></script>
 <link   href="res/demo.css" type="text/css" rel="stylesheet" />
 
+<script src="res/collapsible.js"></script>
+
 <script src="res/shCore.js"></script>
 <script src="res/shBrushJScript.js"></script>
 <script src="res/shBrushXml.js"></script>
@@ -20,23 +22,26 @@ $(function () {
     // Prepare demo - not related to the Direct Form.
     demo.ready = false;
     demo.initModule();
+    
+    collapsible.initModule();
 });
 </script>
 
 <script src="../script/directForm.js"></script>
-<script id="demo-js" type="text/javascript" >
+<script id="JavaScript" type="text/javascript" >
 // Gobal variable for testing
 lastSubmitEvent = null;
 theForm         = null;
 
 $(function () {
-    // Initiate the direct form module. (Need to don only once).
+    // Initiate the direct form module. (Need to do only once).
     directForm.initModule();
     
     // Create a direct form for the container "#form1"".
     var form1 = directForm.makeForm($("#form1"));
     // Make its submit button to perform a submit.
     $("#form1 > .submit-button").click(function() {
+        // Submit via the created variable.
         form1.submit();
     });
     // Setup a listener for the form.
@@ -163,12 +168,12 @@ $(function () {
 
 <script type="text/javascript" >
 $(function () {
-    $("#disp-code-test-01 pre").text($("#Test-01").html());
-    
     if (demo.param('unittests') != 'false') {
         demo.runUnitTests();
     }
     demo.ready = true;
+    
+    collapsible.apply(".has-detail");
 });
 </script>
 
@@ -198,38 +203,40 @@ $(function () {
           </li>
       </ul>
       
-      <div id="disp-code" class="has-detail">
+      <div id="display-code">
         <h3>Demo Code</h3>
-        <span class="show-link">&lt;show&gt;</span><span class="hide-link">&lt;hide&gt;</span>
         
-        <div class="detail">
-          <h4>HTML</h4>
-          <div id="disp-html-code">
-            <pre class="brush: xml"></pre>
+        <div>
+          <div class="has-detail">
+            <span class="show-link">+</span>
+            <span class="hide-link">-</span>
+            <h4>HTML</h4>
+            
+            <div id="disp-html-code" class="detail">
+              <pre class="brush: xml"></pre>
+            </div>
           </div>
           
-          <h4>JavaScript</h4>
-          <div id="disp-js-code">
-            <pre class="brush: js"></pre>
-          </div>
-          
-          <h4>Test-01</h4>
-          <div id="disp-code-test-01">
-            <pre class="brush: js"></pre>
+          <div class="has-detail">
+            <span class="show-link">+</span>
+            <span class="hide-link">-</span>
+            <h4>JavaScript</h4>
+            
+            <div id="disp-js-code" class="detail">
+              <pre class="brush: js"></pre>
+            </div>
           </div>
         </div>
       </div>
       
-      <div id="unit-tests" class="has-detail">
+      <div id="unit-tests">
         <h3>Unit tests</h3>
-        <span class="show-link">&lt;show&gt;</span><span class="hide-link">&lt;hide&gt;</span>
-        
-        <table class="detail">
+        <table>
         </table>
       </div>
     </div>
   </div>
-  <div id="demo-html" class="content" >
+  <div id="HTML" class="content">
     <div id="form1" >
       <input type="text" data-name="input1" placeholder="input1"><br/>
       <input type="text" data-name="input2" placeholder="input2"><br/>

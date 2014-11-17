@@ -82,6 +82,9 @@ body > .log:before  {
 
 .head h4 {
     font-size: 0.9em;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    display: inline;
 }
 
 .head #disp-code h4,
@@ -95,8 +98,10 @@ body > .log:before  {
 }
 
 .hide-link,
-.show-link {
-    font-size: small;
+.show-link,
+.hide-code,
+.show-code {
+    font-family: monospace;
     color: blue;
     cursor: pointer
 }
@@ -104,6 +109,10 @@ body > .log:before  {
 .error-log,
 .error-log * {
     background-color: #FFAAAA !important;
+}
+
+#unit-tests {
+    min-width: 1000px;
 }
 
 #unit-tests thead {

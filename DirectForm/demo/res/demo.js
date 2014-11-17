@@ -46,27 +46,9 @@ var demo = (function($) {
     initModule = function($log_element) {
         $log = $log_element || $(".log");
         
-        $(".has-detail").each(function() {
-            var $this = $(this);
-            $this.find(".show-link").click(function() {
-                $this.find(".detail").show();
-                $this.find(".show-link").hide();
-                $this.find(".hide-link").show();
-            });
-            $this.find(".hide-link").click(function() {
-                $this.find(".detail").hide();
-                $this.find(".show-link").show();
-                $this.find(".hide-link").hide();
-            });
-            
-            $this.find(".detail").hide();
-            $this.find(".hide-link").hide();
-            $this.find(".show-link").show();
-        });
-        
         // Prepare code.
-        $("#disp-html-code pre").text($("#demo-html").html());
-        $("#disp-js-code   pre").text($("#demo-js"  ).html());
+        $("#disp-html-code pre").text($("#HTML").html());
+        $("#disp-js-code   pre").text($("#JavaScript"  ).html());
         // TODO - Automatically generate unit test code.
         SyntaxHighlighter.all();
         
@@ -149,6 +131,8 @@ var demo = (function($) {
         var $testRow  = $("<tr />").addClass('test-row');
         var $testBtn  = $("<input type='button'/>").addClass('test-button');
         var $testName = $("<span></span>").addClass('test-name');
+        var $testShow = $("<span>+</span>").addClass('show-code');
+        var $testHide = $("<span>-</span>").addClass('hide-code');
         var $testDesc = $("<span></span>").addClass('test-desc');
         var $testPass = $("<span>PASS</span>").addClass('test-pass');
         var $testFail = $("<span>FAIL</span>").addClass('test-fail');
@@ -160,10 +144,31 @@ var demo = (function($) {
         $testFail.hide();
         $testErr.hide();
         
-        $testRow.append($("<td />").append($testName));
+        $testRow.append($("<td />").append($testShow).append($testHide).append($testName));
         $testRow.append($("<td />").append($testDesc));
         $testRow.append($("<td />").append($testBtn));
         $testRow.append($("<td />").append($testPass).append($testFail).append($testErr));
+        
+        var $testCodeRow = $("<tr />").addClass('test-code-row');
+        var $testCodeCol = $("<td />").attr('colspan', '4');
+        var $testCodePre = $("<pre />").addClass("brush:").addClass("js");
+        $testCodePre.text($("#" + name).html());
+        $testCodeCol.append($testCodePre).css("padding", "0px");
+        $testCodeRow.append($testCodeCol);
+        
+        $testShow.click(function() {
+            $testCodeRow.show();
+            $testShow.hide();
+            $testHide.show();
+        });
+        $testHide.click(function() {
+            $testCodeRow.hide();
+            $testShow.show();
+            $testHide.hide();
+        });
+        $testCodeRow.hide();
+        $testShow.show();
+        $testHide.hide();
         
         var testVar;
         var test;
@@ -179,7 +184,9 @@ var demo = (function($) {
         $testBtn.click(test);
         unitTests.push(testVar);
         
-        $("#unit-tests table").append($testRow);
+        $("#unit-tests table")
+            .append($testRow)
+            .append($testCodeRow);
     }
     
     runUnitTests = function(handler) {

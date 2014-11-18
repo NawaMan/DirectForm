@@ -47,8 +47,8 @@ var directJsUnit = (function($) {
     };
     
     function prepareTestCodeRow($test, $code) {
-        var $testShow = $("<span>+</span>").addClass('show-code');
-        var $testHide = $("<span>-</span>").addClass('hide-code');
+        var $testShow = $("<span>+</span>").addClass('show-test-code');
+        var $testHide = $("<span>-</span>").addClass('hide-test-code');
         
         $testShow.insertBefore($test.name);
         $testHide.insertBefore($test.name);
@@ -116,7 +116,7 @@ var directJsUnit = (function($) {
             runUnitTests();
         });
         
-        $("#unit-tests table").append($testRow);
+        $(".unit-tests table").append($testRow);
         
         $allPass = $test.pass;
         $allFail = $test.fail;
@@ -151,7 +151,7 @@ var directJsUnit = (function($) {
         $test.btn.click(test);
         unitTests.push(testVar);
         
-        $("#unit-tests table")
+        $(".unit-tests table")
             .append($testRow)
             .append($codeRow);
     };

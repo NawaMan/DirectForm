@@ -98,9 +98,7 @@ body > .log:before  {
 }
 
 .hide-link,
-.show-link,
-.hide-code,
-.show-code {
+.show-link {
     font-family: monospace;
     color: blue;
     cursor: pointer;
@@ -112,64 +110,3 @@ body > .log:before  {
 .error-log * {
     background-color: #FFAAAA !important;
 }
-
-#unit-tests,
-#unit-tests table {
-    min-width: 1160px;
-}
-
-#unit-tests thead {
-    background: #CCF
-}
-
-#unit-tests tr:nth-child(4n+1),
-#unit-tests tr:nth-child(4n+2) {
-    background: #FFF;
-}
-
-#unit-tests tr:nth-child(4n+3),
-#unit-tests tr:nth-child(4n+4) {
-    background: #DDD;
-}
-
-#unit-tests tr td:nth-child(1) {
-    padding-right: 3em;
-}
-
-#unit-tests tr td:nth-child(2) {
-    padding-right: 3em;
-    max-width: 40em;
-}
-
-#unit-tests thead td:nth-child(3),
-#unit-tests tr    td:nth-child(3) {
-    text-align: center;
-}
-
-#unit-tests thead td:nth-child(4),
-#unit-tests tr    td:nth-child(4) {
-    text-align: center;
-}
-
-#unit-tests thead {
-    font-weight: bold;
-}
-
-.test-pass,
-.test-fail,
-.test-error {
-    padding-left: 1em;
-    padding-right: 1em;
-    font-weight: bold;
-}
-
-.test-pass {
-    background-color: #AAFFAA !important;
-}
-.test-fail {
-    background-color: #FFAAAA !important;
-}
-.test-error {
-    background-color: #FF0000 !important;
-}
-

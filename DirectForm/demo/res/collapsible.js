@@ -2,10 +2,16 @@
  * Simple tools for making collapsible component.
  */
 var collapsible = (function($) {
+    
+    var isInitialized = false;
     var initModule, apply;
     
     initModule = function (){
+        if (isInitialized) {
+            return;
+        }
         
+        isInitialized = true;
     };
     
     apply = function ($target) {

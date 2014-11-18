@@ -103,7 +103,9 @@ body > .log:before  {
 .show-code {
     font-family: monospace;
     color: blue;
-    cursor: pointer
+    cursor: pointer;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .error-log,
@@ -111,20 +113,23 @@ body > .log:before  {
     background-color: #FFAAAA !important;
 }
 
-#unit-tests {
-    min-width: 1000px;
+#unit-tests,
+#unit-tests table {
+    min-width: 1160px;
 }
 
 #unit-tests thead {
     background: #CCF
 }
 
-#unit-tests tr:nth-child(even) {
-    background: #DDD
+#unit-tests tr:nth-child(4n+1),
+#unit-tests tr:nth-child(4n+2) {
+    background: #FFF;
 }
 
-#unit-tests tr:nth-child(odd) {
-    background: #FFF
+#unit-tests tr:nth-child(4n+3),
+#unit-tests tr:nth-child(4n+4) {
+    background: #DDD;
 }
 
 #unit-tests tr td:nth-child(1) {

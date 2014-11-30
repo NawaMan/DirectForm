@@ -6,19 +6,16 @@
 <title>DirectForm Demo</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-<script src="res/demo.js"></script>
-<link   href="res/demo.css" type="text/css" rel="stylesheet" />
+<script src="../resources/demo.js"></script>
+<link   href="../resources/demo.css" type="text/css" rel="stylesheet" />
 
-<script src="res/collapsible.js"></script>
+<script src="../resources/collapsible.js"></script>
 
-<script src="res/directJsUnit.js"></script>
-<link   href="res/directJsUnit.css" type="text/css" rel="stylesheet" />
-
-<script src="res/shCore.js"></script>
-<script src="res/shBrushJScript.js"></script>
-<script src="res/shBrushXml.js"></script>
-<link   href="res/shCore.css"         type="text/css" rel="stylesheet" />
-<link   href="res/shThemeDefault.css" type="text/css" rel="stylesheet" />
+<script src="../resources/shCore.js"></script>
+<script src="../resources/shBrushJScript.js"></script>
+<script src="../resources/shBrushXml.js"></script>
+<link   href="../resources/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="../resources/shThemeDefault.css" type="text/css" rel="stylesheet" />
 
 <script type="text/javascript" >
 $(function () {
@@ -27,16 +24,12 @@ $(function () {
     demo.initModule();
     
     collapsible.initModule();
-    directJsUnit.initModule();
+    collapsible.apply(".has-detail");
 });
 </script>
 
 <script src="../script/directForm.js"></script>
 <script id="JavaScript" type="text/javascript" >
-// Gobal variable for testing
-lastSubmitEvent = null;
-theForm         = null;
-
 $(function () {
     // Initiate the direct form module. (Need to do only once).
     directForm.initModule();
@@ -50,165 +43,67 @@ $(function () {
     });
     // Setup a listener for the form.
     $("#form1").bind('submit', function(event) {
-        // Display the value.
-        demo.log(JSON.stringify(event.values));
-        // Store this for testing
-        lastSubmitEvent = event;
+        // Display the values.
+        demo.log(
+            'input1 = \'' + event.values.input1 + '\'',
+            'input2 = \'' + event.values.input2 + '\''
+        );
     });
     
     theForm = form1;
 });
 </script>
 
-<script id="Test-01" type="text/javascript" >
-$(function () {
-    directJsUnit.addUnitTest('Test-01', 'Check if the input values are as expected', function() {
-        var $input1 = $("#form1 [data-name=input1]");
-        var $input2 = $("#form1 [data-name=input2]");
-        
-        var oldValue1  = $input1.val();
-        var oldValue2  = $input2.val();
-        try {
-            // Given 
-            $input1.val("value1");
-            $input2.val("value2");
-            
-            // Do it
-            theForm.submit();
-            
-            // Ensure result
-            directJsUnit.assert(lastSubmitEvent.values["input1"], "value1");
-            directJsUnit.assert(lastSubmitEvent.values.input2,    "value2");
-        } finally {
-            $input1.val(oldValue1);
-            $input2.val(oldValue2);
-        }
-    });
-});
-</script>
-
-<script id="Test-02" type="text/javascript" >
-$(function () {
-    directJsUnit.addUnitTest('Test-02', 'Check if input values are as expected - by simulating and observing the UI', function() {
-        var $input1 = $("#form1 [data-name=input1]");
-        var $input2 = $("#form1 [data-name=input2]");
-        var $submitBtn = $("#form1 .submit-button")
-        
-        var oldValue1  = $input1.val();
-        var oldValue2  = $input2.val();
-        try {
-            // Given 
-            $input1.val("value1");
-            $input2.val("value2");
-            
-            // Do it
-            $submitBtn.click();
-            
-            // Ensure result
-            return demo.assertLog('{"input1":"value1","input2":"value2"}');
-        } finally {
-            $input1.val(oldValue1);
-            $input2.val(oldValue2);
-        }
-    });
-});
-</script>
-
-<script id="Test-03" type="text/javascript" >
-$(function () {
-    directJsUnit.addUnitTest('Test-03', 'Check if the fields are accessible', function() {
-        var $input1 = $("#form1 [data-name=input1]");
-        var $input2 = $("#form1 [data-name=input2]");
-        
-        var oldValue1  = $input1.val();
-        var oldValue2  = $input2.val();
-        try {
-            // Given
-            $input1.val("value1");
-            $input2.val("value2");
-            $input1.attr("data-uId", Math.floor(Math.random()*1000001));
-            $input2.attr("data-uId", Math.floor(Math.random()*1000001));
-            
-            // Do it
-            theForm.submit();
-            
-            // Ensure result
-            directJsUnit.assert(lastSubmitEvent.fields["input1"].element.attr("data-uId"), $input1.attr("data-uId"));
-            directJsUnit.assert(lastSubmitEvent.fields.input2.element.attr("data-uId"),    $input2.attr("data-uId"));
-        } finally {
-            $input1.val(oldValue1);
-            $input2.val(oldValue2);
-        }
-    });
-});
-</script>
-
-<script id="Test-04" type="text/javascript" >
-$(function () {
-    directJsUnit.addUnitTest('Test-04', 'Check if the fields values are accessible', function() {
-        var $input1 = $("#form1 [data-name=input1]");
-        var $input2 = $("#form1 [data-name=input2]");
-        
-        var oldValue1  = $input1.val();
-        var oldValue2  = $input2.val();
-        try {
-            // Given
-            $input1.val("value1");
-            $input2.val("value2");
-            
-            // Do it
-            theForm.submit();
-            
-            // Ensure result
-            directJsUnit.assert(lastSubmitEvent.fields["input1"].value, "value1");
-            directJsUnit.assert(lastSubmitEvent.fields.input2.value,    "value2");
-        } finally {
-            $input1.val(oldValue1);
-            $input2.val(oldValue2);
-        }
-    });
-});
-</script>
-
-<script type="text/javascript" >
-$(function () {
-    if (demo.param('unittests') != 'false') {
-        directJsUnit.runUnitTests();
-    }
-    demo.ready = true;
-    
-    collapsible.apply(".has-detail");
-});
-</script>
-
 </head>
 
 <body>
-  <div class="head" >
-    <div>Basic</div>
-    <div>
-      <h3>Description</h3>
-      <ul>
+  <section class="head" >
+    <header>
+      <h2>Basic</h2>
+    </header>
+    <section>
+      <article>
+        <header>
+          <h3>Description</h3>
+        </header>
+        <ul>
           <li>
-              Direct form can be created from any container.
+            This page aims to show the basic usage of DirectForm.
           </li>
           <li>
-              When submit, the value of any input components (except for button) in that container are automatically
-                gathered and added to the event object in the property named "values"
-                (e.g., `<code>event.values['input1']</code>` or `<code>event.values.input1</code>`).
+            A direct form can be created from a container.
           </li>
           <li>
-              The fields elements are also accessible via the property of the event object named "fields" 
-                (e.g., `<code>event.fields['input1'].element</code>` or `<code>event.fields.input1.element</code>`).
+            A variable is returned to represent the form. It can be used to submit the form.
           </li>
           <li>
-              The fields values are also accessible via the `<code>fields</code>` property.
-                (e.g., `<code>event.fields['input1'].value</code>` or `<code>event.fields.input1.value</code>`).
+            When submitted, the value of any input components (except for button) in that container are automatically
+              gathered and added to the event object in the property named "values"
+              (e.g., `<code>event.values['input1']</code>` or `<code>event.values.input1</code>`).
           </li>
-      </ul>
+        </ul>
+      </article>
+      <article>
+        <header>
+          <h3>Activity</h3>
+        </header>
+        <ol>
+          <li>
+            Enter value in the input field 'input1' and 'input2'.
+          </li>
+          <li>
+            Click the 'Submit' botton.
+          </li>
+          <li>
+            Observe the log message.
+          </li>
+        </ol>
+      </article>
       
-      <div id="display-code">
-        <h3>Demo Code</h3>
+      <article id="display-code">
+        <header>
+          <h3>Code</h3>
+        </header>
         
         <div>
           <div class="has-detail">
@@ -231,22 +126,13 @@ $(function () {
             </div>
           </div>
         </div>
-      </div>
-      
-      <div class="has-detail unit-tests">
-        <h3>Unit tests</h3>
-        <span class="show-link">&lt;show&gt;</span>
-        <span class="hide-link">&lt;hide&gt;</span>
-        
-        <table class="detail">
-        </table>
-      </div>
-    </div>
-  </div>
+      </article>
+    </section>
+  </section>
   <div id="HTML" class="content">
     <div id="form1" >
-      <input type="text" data-name="input1" placeholder="input1"><br/>
-      <input type="text" data-name="input2" placeholder="input2"><br/>
+      <label>input1: </label><input type="text" data-name="input1" ><br/>
+      <label>input2: </label><input type="text" data-name="input2" ><br/>
       <input type="button" class="submit-button" value="Submit" />
     </div>
   </div>

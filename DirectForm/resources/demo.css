@@ -29,7 +29,7 @@ body {
 body > .head {
     max-width: 1200px;
     text-align: left;
-    background-color: #FFF7BC;
+    background-color: #FFF7DD;
     margin-left: auto;
     margin-right: auto;
     padding-top: 0.5em;
@@ -109,4 +109,8 @@ body > .log:before  {
 .error-log,
 .error-log * {
     background-color: #FFAAAA !important;
+}
+
+section.head {
+    margin-bottom: 0.5em;
 }

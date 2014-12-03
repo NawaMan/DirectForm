@@ -7,6 +7,7 @@ var directJsUnit = (function($) {
     var initModule, assert, addUnitTest, runUnitTests;
     var $allPass, $allFail;
     var unitTests = [];
+    var optionMap = {};
     
     function AssertException(message) {
         this.name = "AssertException";
@@ -14,6 +15,34 @@ var directJsUnit = (function($) {
     };
     AssertException.prototype = new Error();
     AssertException.prototype.constructor = AssertException;
+    
+    function prepareDefaultOptionMap(option_map) {
+        if (option_map) {
+            optionMap = option_map;
+        } else {
+            optionMap = {};
+        }
+        if (!('error' in optionMap)) {
+            optionMap.error = function() {
+                var str = "";
+                for (var i = 0; i < arguments.length; i++) {
+                    var arg = arguments[i];
+                    var text = "";
+                    if (((typeof arg) === 'string')
+                    || ((typeof arg) === 'number')) {
+                        text = "" + arg;
+                    } else {
+                        text = JSON.stringify(arg, undefined, 2);
+                    }
+                    if (str != "") {
+                        str += "\n";
+                    }
+                    str += text;
+                }
+                alert(str);
+            };
+        }
+    }
     
     function prepareTestRow($testRow, name, desc, btnLabel) {
         var $testBtn  = $("<input type='button'/>").addClass('test-button');
@@ -88,12 +117,12 @@ var directJsUnit = (function($) {
             return true;
         } catch(exception) {
             if (exception instanceof AssertException) {
-                error(
+                optionMap.error(
                     "A test assertion fail: " + test.name,
                     "  @" + exception.fileName + "#" + exception.lineNumber);
                 $testFail.show();
             } else {
-                error(
+                optionMap.error(
                     "A test results in exception: " + test.name,
                     "  @" + exception.fileName + "#" + exception.lineNumber,
                     "Message: ",
@@ -105,10 +134,12 @@ var directJsUnit = (function($) {
         }
     };
     
-    initModule = function() {
+    initModule = function(option_map) {
         if (isInitialized) {
             return;
         }
+        
+        prepareDefaultOptionMap(option_map);
         
         var $testRow  = $("<thead />").addClass('test-row');
         var $test = prepareTestRow($testRow, "Name", "Description", "Test All");

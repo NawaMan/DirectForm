@@ -1,0 +1,82 @@
+body.compact,
+body.compact > .head {
+    margin: 0px !important;
+    padding: 0px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+body.compact > *,
+body.compact > .head > section > * {
+    display: none;
+}
+body.compact > .head,
+body.compact > .head > section > header {
+    display: block !important;
+    width: 100% !important;
+    margin: 0px;
+    padding: 0px;
+}
+
+#test-name:after {
+    content: ": ";
+}
+
+#test-result {
+    text-align: center;
+    color: white;
+    font-family: monospace;
+}
+
+body.compact #test-result {
+    text-align: center;
+    color: white;
+    font-family: monospace;
+    font-size: 1.1em;
+    padding: 2px;
+}
+
+body.pass #test-result {
+    background-color: green;
+}
+body.fail #test-result {
+    background-color: red;
+}
+
+#test-result a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.head > section > header {
+    display: block;
+}
+
+.head > section > header h3 {
+    margin-top: 0px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.compact .head > section > header h3 {
+    padding-left: 0.5em;
+}
+
+body.compact #test-result {
+    margin-right: 0.5em;
+}
+.head > section > header > span,
+.head > section > header > span > a {
+    float: right;
+    display: inline;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+#disp-html-code,
+#disp-js-code {
+    font-size: 0.9em !important;
+    overflow: hidden;
+}

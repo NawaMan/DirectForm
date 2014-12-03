@@ -1,0 +1,27 @@
+<script id="display-code-template" type="text/plain">
+  <div id="display-code">
+    <h3>Code</h3>
+    
+    <div>
+      <div class="has-detail">
+        <span class="show-link">+</span>
+        <span class="hide-link">-</span>
+        <h4>HTML</h4>
+        
+        <div id="disp-html-code" class="detail">
+          <pre class="brush: xml"></pre>
+        </div>
+      </div>
+      
+      <div class="has-detail">
+        <span class="show-link">+</span>
+        <span class="hide-link">-</span>
+        <h4>JavaScript</h4>
+        
+        <div id="disp-js-code" class="detail">
+          <pre class="brush: js"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>

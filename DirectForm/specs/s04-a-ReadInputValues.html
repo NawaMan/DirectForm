@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>s04-a-UsersReadInputsFromEvent</title>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="../resources/test.js"></script>
+<link   href="../resources/test.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/demo.js"></script>
+<link   href="../resources/demo.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/collapsible.js"></script>
+
+<script src="../resources/shCore.js"></script>
+<script src="../resources/shBrushJScript.js"></script>
+<script src="../resources/shBrushXml.js"></script>
+<link   href="../resources/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="../resources/shThemeDefault.css" type="text/css" rel="stylesheet" />
+
+
+<script type="text/javascript" >
+$(function () {
+    //-- Initialize libraries ------------------------------------------------------------------------------------------
+    test.initModule();
+    demo.initModule();
+    collapsible.initModule();
+});
+</script>
+
+<!--
+== The actual test code ================================================================================================
+ -->
+
+<script src="../script/directForm.js"></script>
+<script id="JavaScript" type="text/javascript" >
+$(function () {
+    //-- Initialization ---------------------------------------------------------------------------
+    directForm.initModule();
+    
+    //-- Test -------------------------------------------------------------------------------------
+    // Prepare input values
+    var $input1 = $("#form1 [data-name=input1]");
+    var $input2 = $("#form1 [data-name=input2]");
+    var valInput1 = "" + Math.floor(Math.random()*1000001);
+    var valInput2 = "" + Math.floor(Math.random()*1000001);
+    
+    // Create a direct form for the container "#form1"".
+    var form1 = directForm.makeForm($("#form1"));
+    // Set the values
+    $input1.val(valInput1);
+    $input2.val(valInput2);
+    // and the listener
+    $("#form1").bind('submit', function(event) {
+        demo.log(JSON.stringify(event.values));
+        
+        // Ensure result
+        test.assert(event.values.input1, valInput1);
+        test.assert(event.values.input2, valInput2);
+        test.assert(JSON.stringify(event.values), JSON.stringify({ 'input1':valInput1, 'input2':valInput2 }));
+        test.success();
+    });
+    
+    // Submit
+    form1.submit();
+});
+</script>
+
+</head>
+
+<body>
+  <div class="head" >
+    <section>
+      <header>
+          <h3 id="test-title">
+            <span id="test-name">Spec04A</span>
+            <span id="test-summary">Users can read the field input values.</span>
+          </h3>
+      </header>
+      <ul class="test-description">
+          <li>
+              Users may want to read the field input values when submit.
+          </li>
+      </ul>
+    </section>
+  </div>
+  <div id="HTML" class="content">
+    <div id="form1" >
+      <input type="text" data-name="input1" ><br/>
+      <input type="text" data-name="input2" ><br/>
+    </div>
+  </div>
+</body>
+
+</html>

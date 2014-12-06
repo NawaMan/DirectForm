@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>s04-b-UsersReadInputsFromEvent</title>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="../resources/test.js"></script>
+<link   href="../resources/test.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/demo.js"></script>
+<link   href="../resources/demo.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/collapsible.js"></script>
+
+<script src="../resources/shCore.js"></script>
+<script src="../resources/shBrushJScript.js"></script>
+<script src="../resources/shBrushXml.js"></script>
+<link   href="../resources/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="../resources/shThemeDefault.css" type="text/css" rel="stylesheet" />
+
+
+<script type="text/javascript" >
+$(function () {
+    //-- Initialize libraries ------------------------------------------------------------------------------------------
+    test.initModule();
+    demo.initModule();
+    collapsible.initModule();
+});
+</script>
+
+<!--
+== The actual test code ================================================================================================
+ -->
+
+<script src="../script/directForm.js"></script>
+<script id="JavaScript" type="text/javascript" >
+$(function () {
+    //-- Initialization ---------------------------------------------------------------------------
+    directForm.initModule();
+    
+    //-- Test -------------------------------------------------------------------------------------
+    // Prepare input values
+    var $input1 = $("#form1 [data-name=input1]");
+    var rgbInput1 = demo.format(
+            "rgb(%s, %s, %s)",
+            demo.randomInt(256),
+            demo.randomInt(256),
+            demo.randomInt(256));
+    
+    // Create a direct form for the container "#form1"".
+    var form1 = directForm.makeForm($("#form1"));
+    // Set the values
+    $input1.css('background-color', rgbInput1);
+    // and the listener
+    $("#form1").bind('submit', function(event) {
+        // Ensure result
+        test.assert(event.fields.input1.element.css('background-color'),    rgbInput1);
+        test.assert(event.fields['input1'].element.css('background-color'), rgbInput1);
+        test.success();
+    });
+    
+    // Submit
+    form1.submit();
+});
+</script>
+
+</head>
+
+<body>
+  <div class="head" >
+    <section>
+      <header>
+          <h3 id="test-title">
+            <span id="test-name">Spec04B</span>
+            <span id="test-summary">Users can access the fields.</span>
+          </h3>
+      </header>
+      <ol class="test-description">
+          <li>
+              Users may want to access the field component.
+          </li>
+          <li>
+              Accessing the elemtn by the property <code>`fields`</code> of the event object and property <code>'element'</code>.
+              For example, the event object is <code>`event`</code> and the input is <code>`input1`</code>,
+                  the user can access the input by:
+              <ol>
+                  <li><code>`event.fields.input1.element`</code></li>
+                  <li><code>`event.fields.['input1'].element`</code></li>
+              </ol>
+          </li>
+      </ol>
+    </section>
+  </div>
+  <div id="HTML" class="content">
+    <div id="form1" >
+      <input type="text" data-name="input1" ><br/>
+    </div>
+  </div>
+</body>
+
+</html>

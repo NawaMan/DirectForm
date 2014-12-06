@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>s02-a-SubmitMethod</title>
+<title>s02-b-SubmitEvent</title>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
 <script src="../resources/test.js"></script>
@@ -45,7 +45,8 @@ $(function () {
     var form1 = directForm.makeForm($("#form1"));
     // Submit
     try {
-        form1.submit();
+        var event = $.Event('callSubmit');
+        $('#form1').trigger(event);
         test.success();
     } catch (e) {
         test.fail();
@@ -60,18 +61,17 @@ $(function () {
     <section>
       <header>
           <h3 id="test-title">
-            <span id="test-name">Spec02A</span>
-            <span id="test-summary">Submitting form by calling submit method.</span>
+            <span id="test-name">Spec02B</span>
+            <span id="test-summary">Submitting form by a firing submit event.</span>
           </h3>
       </header>
       <ol class="test-description">
           <li>
-              A direct form can be submitted so that its data can be processed.
+              A direct form can be submit by firing event to the form container.
           </li>
           <li>
-              By calling <code>`submit`</code> method to the form variable.
-              For example, given the form variable is named <code>`form1`</code>,
-                  submitting the form can be done by calling <code>`form1.submit()`</code>.
+              jQuery event <code>`callSubmit`</code> can be fired to the form container to submit it.
+              See the test script code for an example.
           </li>
       </ol>
     </section>

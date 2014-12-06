@@ -46,10 +46,10 @@ $(function () {
     var $input2 = $("#form1 [data-name=input2]");
     var $input3 = $("#form1 [data-name=input3]");
     var $input4 = $("#form1 [data-name=input4]");
-    var valInput1 = "" + Math.floor(Math.random()*1000001);
-    var valInput2 = "" + Math.floor(Math.random()*1000001);
-    var valInput3 = "" + Math.floor(Math.random()*1000001);
-    var valInput4 = "" + Math.floor(Math.random()*1000001);
+    var valInput1 = "" + demo.randomInt(1000000);
+    var valInput2 = "" + demo.randomInt(1000000);
+    var valInput3 = "" + demo.randomInt(1000000);
+    var valInput4 = "" + demo.randomInt(1000000);
     
     // Create a direct form for the container "#form1"".
     var form1 = directForm.makeForm($("#form1"));

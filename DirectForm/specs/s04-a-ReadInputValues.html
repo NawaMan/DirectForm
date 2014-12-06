@@ -44,22 +44,36 @@ $(function () {
     // Prepare input values
     var $input1 = $("#form1 [data-name=input1]");
     var $input2 = $("#form1 [data-name=input2]");
+    var $input3 = $("#form1 [data-name=input3]");
+    var $input4 = $("#form1 [data-name=input4]");
     var valInput1 = "" + Math.floor(Math.random()*1000001);
     var valInput2 = "" + Math.floor(Math.random()*1000001);
+    var valInput3 = "" + Math.floor(Math.random()*1000001);
+    var valInput4 = "" + Math.floor(Math.random()*1000001);
     
     // Create a direct form for the container "#form1"".
     var form1 = directForm.makeForm($("#form1"));
     // Set the values
     $input1.val(valInput1);
     $input2.val(valInput2);
+    $input3.val(valInput3);
+    $input4.val(valInput4);
     // and the listener
     $("#form1").bind('submit', function(event) {
         demo.log(JSON.stringify(event.values));
         
         // Ensure result
-        test.assert(event.values.input1, valInput1);
-        test.assert(event.values.input2, valInput2);
-        test.assert(JSON.stringify(event.values), JSON.stringify({ 'input1':valInput1, 'input2':valInput2 }));
+        test.assert(event.values.input1,          valInput1);
+        test.assert(event.values['input2'],       valInput2);
+        test.assert(event.fields.input3.value,    valInput3);
+        test.assert(event.fields['input4'].value, valInput4);
+        test.assert(
+                JSON.stringify(event.values),
+                JSON.stringify({
+                        'input1':valInput1,
+                        'input2':valInput2,
+                        'input3':valInput3,
+                        'input4':valInput4 }));
         test.success();
     });
     
@@ -79,17 +93,33 @@ $(function () {
             <span id="test-summary">Users can read the field input values.</span>
           </h3>
       </header>
-      <ul class="test-description">
+      <ol class="test-description">
           <li>
               Users may want to read the field input values when submit.
           </li>
-      </ul>
+          <li>
+              Accessing the value by the property `values` of the event object.
+              For example, the event object is `event` and the input is `input1`,
+                  the user can access the input by:
+              <ol>
+                  <li>`event.values.input1`</li>
+                  <li>`event.values['input1']`</li>
+                  <li>`event.fields.input1.value`</li>
+                  <li>`event.fields.['input1'].value`</li>
+              </ol>
+          </li>
+          <li>
+              The name of an input data is obtained from the attribute 'data-name' of the input component.
+          </li>
+      </ol>
     </section>
   </div>
   <div id="HTML" class="content">
     <div id="form1" >
       <input type="text" data-name="input1" ><br/>
       <input type="text" data-name="input2" ><br/>
+      <input type="text" data-name="input3" ><br/>
+      <input type="text" data-name="input4" ><br/>
     </div>
   </div>
 </body>

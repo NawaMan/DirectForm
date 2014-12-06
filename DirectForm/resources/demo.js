@@ -5,7 +5,7 @@ var demo = (function($) {
     
     var isInitialized = false;
     
-    var initModule, param, log, error, assertLog;
+    var initModule, param, log, error, assertLog, randomInt, format;
     var $log;
     
     initModule = function($log_element) {
@@ -61,11 +61,25 @@ var demo = (function($) {
         return directJsUnit.assert(actual, expected_text);
     };
     
+    format = function() {
+        var str = arguments[0], i = 0;
+        while (/%s/.test(str)) {
+            str = str.replace("%s", arguments[1 + i++]);
+        }
+        return str;
+    };
+    
+    randomInt = function(max) {
+        return Math.floor(Math.random()*(max + 1));
+    };
+    
     return {
-        initModule   : initModule,
-        param        : param,
-        log          : log,
-        error        : error,
-        assertLog    : assertLog,
+        initModule : initModule,
+        param      : param,
+        log        : log,
+        error      : error,
+        assertLog  : assertLog,
+        randomInt  : randomInt,
+        format     : format,
     };
 })(jQuery);

@@ -7,9 +7,17 @@
 var directForm = (function($) {
     
     var initModule, makeForm;
+    var stateMap = {
+        isModuleInitialized: false,
+    };
     
     initModule = function() {
+        if (stateMap.isModuleInitialized) {
+            return false;
+        }
         
+        stateMap.isModuleInitialized = true;
+        return true;
     };
     
     function extractParameterName($element) {

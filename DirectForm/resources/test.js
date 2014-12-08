@@ -50,7 +50,6 @@ var test = (function($) {
         
         $.get('test.html-fragment', function(data) {
             var htmlFragment = $(data.activeElement).html();
-            //$(".head section").append($("<div></div>").html($(htmlFragment)));
             $(".head section").append($(htmlFragment));
             
             $("#disp-html-code pre").text($("#HTML"      ).html());

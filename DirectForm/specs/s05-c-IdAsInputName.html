@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>s04-a-UsersReadInputsFromEvent</title>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="../resources/test.js"></script>
+<link   href="../resources/test.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/demo.js"></script>
+<link   href="../resources/demo.css" type="text/css" rel="stylesheet" />
+
+<script src="../resources/collapsible.js"></script>
+
+<script src="../resources/shCore.js"></script>
+<script src="../resources/shBrushJScript.js"></script>
+<script src="../resources/shBrushXml.js"></script>
+<link   href="../resources/shCore.css"         type="text/css" rel="stylesheet" />
+<link   href="../resources/shThemeDefault.css" type="text/css" rel="stylesheet" />
+
+
+<script type="text/javascript" >
+$(function () {
+    //-- Initialize libraries ------------------------------------------------------------------------------------------
+    test.initModule();
+    demo.initModule();
+    collapsible.initModule();
+});
+</script>
+
+<!--
+== The actual test code ================================================================================================
+ -->
+
+<script src="../script/directForm.js"></script>
+<script id="JavaScript" type="text/javascript" >
+$(function () {
+    //-- Initialization ---------------------------------------------------------------------------
+    directForm.initModule();
+    
+    //-- Test -------------------------------------------------------------------------------------
+    // Prepare input values
+    var $input1 = $("#input1B");
+    var $input2 = $("#input2B");
+    var valInput1 = "" + demo.randomInt(1000000);
+    var valInput2 = "" + demo.randomInt(1000000);
+    
+    // Create a direct form for the container "#form1"".
+    var form1 = directForm.makeForm($("#form1"));
+    // Set the values
+    $input1.val(valInput1);
+    $input2.val(valInput2);
+    // and the listener
+    $("#form1").bind('submit', function(event) {
+        demo.log(JSON.stringify(event.values));
+        
+        // Ensure result
+        if (!('input1A' in event.values)) {
+            test.fail();
+        }
+        if ('input1B' in event.values) {
+            test.fail();
+        }
+        if (!('input2B' in event.values)) {
+            test.fail();
+        }
+        
+        test.assert(
+                JSON.stringify(event.values),
+                JSON.stringify({
+                        'input1A':valInput1,
+                        'input2B':valInput2 }));
+        test.success();
+    });
+    
+    // Submit
+    form1.submit();
+});
+</script>
+
+</head>
+
+<body>
+  <div class="head" >
+    <section>
+      <header>
+          <h3 id="test-title">
+            <span id="test-name">Spec05C</span>
+            <span id="test-summary">Without <code>`data-name`</code>, <code>`id`</code> is the input name.</span>
+          </h3>
+      </header>
+      <ol class="test-description">
+          <li>
+              Without <code>`data-name`</code> attribute, the element's id is used as the input name.
+          </li>
+          <li>
+              The name of an input data is obtained from the attribute <code>`data-name`</code> of the input component.
+          </li>
+      </ol>
+    </section>
+  </div>
+  <div id="HTML" class="content">
+    <div id="form1" >
+      <input type="text" data-name="input1A" id="input1B" ><br/>
+      <input type="text"                     id="input2B" ><br/>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -22,6 +22,9 @@ var directForm = (function($) {
     
     function extractParameterName($element) {
         var name = $element.attr("data-name");
+		if (!name) {
+			name = $element.attr("id");
+		}
         return name;
     }
     

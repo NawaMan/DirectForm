@@ -32,6 +32,10 @@ var test = (function($) {
             .attr('title', "Click to open: " + document.getElementsByTagName("title")[0].innerHTML);
         $('#test-result').append($a);
         
+        if ($('body').is('.compact')) {
+        	$a.attr("target", "_blank");
+        }
+        
         if (pass) {
             demo.log("Test pass!");
             $('body').addClass('pass');
@@ -43,22 +47,6 @@ var test = (function($) {
             $a.text('FAIL');
         }
     };
-    
-    function prepareTemplatedCode() {
-        $("body").append($('<div class="log" ></div>'));
-        $(".head > section > header").prepend($('<span id="test-result"></span>'));
-        
-        $.get('test.html-fragment', function(data) {
-            var htmlFragment = $(data.activeElement).html();
-            $(".head section").append($(htmlFragment));
-            
-            $("#disp-html-code pre").text($("#HTML"      ).html());
-            $("#disp-js-code   pre").text($("#JavaScript").html());
-            SyntaxHighlighter.all();
-            
-            collapsible.apply(".has-detail");
-        });
-    }
     
     function prepareDefaultOptionMap(option_map) {
         if (option_map) {
@@ -95,7 +83,6 @@ var test = (function($) {
         }
         
         prepareDefaultOptionMap(option_map);
-        prepareTemplatedCode();
         handleCompact();
         
         isInitialized = true;

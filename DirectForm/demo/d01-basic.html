@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>DirectForm Demo</title>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="../resources/jquery-1.11.2.js"></script>
 
 <script src="../resources/demo.js"></script>
 <link   href="../resources/demo.css" type="text/css" rel="stylesheet" />
@@ -17,14 +18,15 @@
 <link   href="../resources/shCore.css"         type="text/css" rel="stylesheet" />
 <link   href="../resources/shThemeDefault.css" type="text/css" rel="stylesheet" />
 
+<script src="../resources/displayCode.js"></script>
+
 <script type="text/javascript" >
 $(function () {
     // Prepare demo - not related to the Direct Form.
     demo.ready = false;
     demo.initModule();
-    
     collapsible.initModule();
-    collapsible.apply(".has-detail");
+    displayCode.initModule();
 });
 </script>
 
@@ -100,33 +102,6 @@ $(function () {
         </ol>
       </article>
       
-      <article id="display-code">
-        <header>
-          <h3>Code</h3>
-        </header>
-        
-        <div>
-          <div class="has-detail">
-            <span class="show-link">+</span>
-            <span class="hide-link">-</span>
-            <h4>HTML</h4>
-            
-            <div id="disp-html-code" class="detail">
-              <pre class="brush: xml"></pre>
-            </div>
-          </div>
-          
-          <div class="has-detail">
-            <span class="show-link">+</span>
-            <span class="hide-link">-</span>
-            <h4>JavaScript</h4>
-            
-            <div id="disp-js-code" class="detail">
-              <pre class="brush: js"></pre>
-            </div>
-          </div>
-        </div>
-      </article>
     </section>
   </section>
   <div id="HTML" class="content">
@@ -136,7 +111,6 @@ $(function () {
       <input type="button" class="submit-button" value="Submit" />
     </div>
   </div>
-  <div class="log" ></div>
 </body>
 
 </html>

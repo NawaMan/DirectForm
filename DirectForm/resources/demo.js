@@ -8,12 +8,13 @@ var demo = (function($) {
     var initModule, param, log, error, assertLog, randomInt, format;
     var $log;
     
-    initModule = function($log_element) {
+    initModule = function() {
         if (isInitialized) {
             return;
         }
         
-        $log = $log_element || $(".log");
+        $log = $('<div class="log" ></div>');
+        $("body").append($log);
         
         // Prepare code.
         $("#disp-html-code pre").text($("#HTML"      ).html());
